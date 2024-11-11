@@ -3,6 +3,7 @@ import requests
 from requests_cache import CachedSession
 import requests_cache
 from threading import Thread
+import time
 
 base_url = 'https://api.scplist.kr/api'
 session = requests_cache.CachedSession('scplist_cache', expire_after=5)
@@ -46,17 +47,45 @@ async def on_message(message):
 
     if message.content.startswith('$eggz'):
         eggz_players = get_server_info(eggz)
-        await message.channel.send(f'this is your player count cake said: {eggz_players["players"]}')
+        embed = discord.Embed (
+            color= discord.Color.blue(),
+            description = f'this is your player count cake said: {eggz_players["players"]}',
+            title= "total players on eggz"
+            )
+        embed.set_footer(text = "api might be a little slow sometimes")
+        await message.channel.send(embed=embed)
     
     if message.content.startswith('$vannila'):
         vannila_players = get_server_info(vannila)
-        await message.channel.send(f'Hello! {vannila_players["players"]} <--- the players')
+        embed = discord.Embed (
+            color= discord.Color.green(),
+            description = f'this is your player count cake said: {vannila_players["players"]}',
+            title= "total players on vannila"
+            )
+        embed.set_footer(text = "api might be a little slow sometimes")
+        await message.channel.send(embed=embed)
     
     if message.content.startswith('$yummy'):
-        yummy_players = get_server_info( yummy)
-        await message.channel.send(f'Hello! {yummy_players["players"]} idk what to say lol')
+        yummy_players = get_server_info(yummy)
+        embed = discord.Embed (
+            color= discord.Color.red(),
+            description = f'this is your player count cake said: {yummy_players["players"]}',
+            title= "total players on yummy"
+            
+        )
+        embed.set_footer(text = "api might be a little slow sometimes")
+        await message.channel.send(embed=embed)
+
+    if message.content.startswith('$cake'):
+        embed = discord.Embed (
+            color= discord.Color.pink(),
+            title= "cake"
+            
+        )
+        embed.set_image(url='https://scp-wiki.wdfiles.com/local--files/scp-871/Cake.jpg')#fix
+        await message.channel.send(embed=embed)
         
 
-token__cake_will_send = "LOL JUST CHANGE"
+token__cake_will_send = "no way"
 client.run(token__cake_will_send)
 
