@@ -50,13 +50,13 @@ async def on_message(message):
     
     if message.content.startswith('$vannila'):
         vannila_players = get_server_info(vannila)
-        await message.channel.send(f'Hello! {vannila_players} <--- the players')
+        await message.channel.send(f'Hello! {vannila_players["players"]} <--- the players')
     
     if message.content.startswith('$yummy'):
         yummy_players = get_server_info( yummy)
-        await message.channel.send(f'Hello! {yummy_players} idk what to say lol')
+        await message.channel.send(f'Hello! {yummy_players["players"]} idk what to say lol')
         
 
-token__cake_will_send = "put token here"
+token__cake_will_send = "LOL JUST CHANGE"
 client.run(token__cake_will_send)
 
