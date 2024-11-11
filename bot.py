@@ -1,9 +1,10 @@
 import discord
 import requests
+import os
 from requests_cache import CachedSession
+from dotenv import load_dotenv
 import requests_cache
 from threading import Thread
-import time
 
 base_url = 'https://api.scplist.kr/api'
 session = requests_cache.CachedSession('scplist_cache', expire_after=5)
@@ -101,6 +102,8 @@ async def on_message(message):
         embed.set_footer(text = "api might be a little slow sometimes")
         await message.channel.send(embed=embed)
         
-token__cake_will_send = ""
-client.run(token__cake_will_send)
+
+load_dotenv()
+
+client.run(os.environ.get("TOKEN"))
 
