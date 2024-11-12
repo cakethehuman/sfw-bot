@@ -2,18 +2,17 @@ import requests
 from discord.ext import commands, tasks
 from constants import format_server_info, cache, api_url, api_request_payload, ResponseAPIServers
 from discord import Color, Embed
-
-embed_server_colors = {
-    72115: Color.red(),
-    72116: Color.green(),
-    72117: Color.pink()
-}
+import discord
+from discord.ext import commands
+from discord import app_commands
+from tables import interview_data
 
 def create_embed_response(description_text: list[str], client: commands.Bot, color: Color = Color.pink()):
     embed = Embed()
     embed.color = color
     embed.description = "\n\n".join(description_text)
     embed.set_author(name='this is what cake said', icon_url=client.user.avatar.url)
+    embed.set_footer(text="api might be little slow")
 
     return embed
 
@@ -42,9 +41,18 @@ class ServerCommands(commands.Cog):
     async def show_yummy_server(self, ctx: commands.Context):
         await ctx.reply(embeds=[ create_embed_response([ format_server_info(72116) ], self.client, Color.red()) ])
     
-    @show_all_servers.command(name='eggzellent')
+    @show_all_servers.command(name='eggz')
     async def show_eggz_server(self, ctx: commands.Context):
-        await ctx.reply(embeds=[ create_embed_response([ format_server_info(72117) ], self.client, Color.pink()) ])
+        await ctx.reply(embeds=[ create_embed_response([ format_server_info(72117) ], self.client, Color.blue()) ])
+    
+    #this shit going to take 1 houur 
+    @app_commands.command(name="hello", description="Say hello!")
+    async def hello(self, interaction: discord.Interaction):
+        await interaction.response.send_message("Hello, world!")
+    #fix the shitty table
+    @commands.command(name="interview")
+    async def hello_message(self, ctx: commands.Context):
+        await ctx.reply(f"{interview_data}")
 
 async def setup(client: commands.Bot):
     await client.add_cog(ServerCommands(client))

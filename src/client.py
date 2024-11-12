@@ -4,8 +4,12 @@ import requests
 import random
 from dotenv import load_dotenv
 from discord.ext import commands, tasks
+from discord import app_commands
 from constants import cache, api_url, api_request_payload, get_server_name, ResponseAPIServers
 
+"""
+Looping for 30 secs thhen get the random caches
+"""
 class CakeHelper(commands.Bot):
     @tasks.loop(seconds=30)
     async def update_status(self):
@@ -15,6 +19,8 @@ class CakeHelper(commands.Bot):
         )
         await self.change_presence(status=discord.Status.online, activity=game)
 
+
+#looping for 5 sec to get a new response
     @tasks.loop(seconds=5)
     async def update_servers_cache(self):
         response = requests.post(api_url, json=api_request_payload)
@@ -41,6 +47,7 @@ intents.guild_messages = True
 intents.presences = True
 
 load_dotenv()
+#prefix
 client = CakeHelper(command_prefix="$", intents=intents)
 client.help_command = None
 
@@ -52,5 +59,6 @@ async def setup_hook():
             print(f"Loaded Cog: {filename}")
         else:
             print("Unable to load pycache folder.")
+
 
 client.run(token=os.getenv("TOKEN"))
