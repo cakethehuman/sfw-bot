@@ -1,14 +1,16 @@
 from typing import Dict, TypedDict
 
-api_url = 'https://api.scplist.kr/api'
+api_url = 'https://api.scplist.kr/api/servers'
 api_request_payload = {
     "search": "SFW",
-    "countryFilter": ["SG"],
-    "friendlyFire": "null",
+    "countryFilter": [
+        "SG"
+    ],
     "hideEmptyServer": False,
     "hideFullServer": False,
-    "modded": "null",
+    "friendlyFire": "null",
     "whitelist": "null",
+    "modded": "null",
     "sort": "DISTANCE_ASC"
 }
 server_names = {
@@ -58,7 +60,7 @@ def format_server_info(id: int) -> str:
     server = cache.get(id)
     
     return (
-        f"*{get_server_name(id)}({id})*\n" +
-        f"Game Version: *{server.version}*\n",
-        f"Player Counts: *{server.players}*"
+        f"**{get_server_name(id)}** ({id})\n" +
+        f"\tGame Version: **{server.get('version')}**\n" +
+        f"\tPlayer Counts: **{server.get('players')}**"
     )
