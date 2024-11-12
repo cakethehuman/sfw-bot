@@ -17,9 +17,6 @@ server_names = {
     72117: "Eggzellent Dreams"
 }
 
-def get_server_name(id: int):
-    return server_names.get(id, "Unknown")
-
 # Types
 class ServerInfo(TypedDict):
     accountId: int
@@ -53,3 +50,15 @@ developers = [
     "586050818369781771", # notcake
     "502968724207304714" # relevantzone
 ]
+
+def get_server_name(id: int):
+    return server_names.get(id, "Unknown")
+
+def format_server_info(id: int) -> str:
+    server = cache.get(id)
+    
+    return (
+        f"*{get_server_name(id)}({id})*\n" +
+        f"Game Version: *{server.version}*\n",
+        f"Player Counts: *{server.players}*"
+    )

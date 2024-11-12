@@ -1,12 +1,9 @@
-import datetime
 import os
-import time
 import discord
-from discord.ext import commands
+import requests
 from dotenv import load_dotenv
-from constants import cache, get_server_name, developers
-from tasks import update_servers_cache
-from commands import general_commands
+from discord.ext import commands, tasks
+from constants import cache, ResponseAPIServers
 
 api_url = 'https://api.scplist.kr/api'
 api_request_payload = {
@@ -21,6 +18,21 @@ api_request_payload = {
 }
 
 class CakeHelper(commands.Bot):
+    @tasks.loop(seconds=5)
+    async def update_servers_cache():
+        try:
+            response = requests.post(api_url, api_request_payload)
+
+            if (response.ok != True):
+                raise Exception("Response returned Not OK")
+            
+            data: ResponseAPIServers = response.json()
+            for server in data.servers:
+                cache[server.serverId] = server
+            
+        except:
+            print(f"Failed to get servers info")
+
     @update_servers_cache.before_loop
     async def update_before_loop(self):
         await self.wait_until_ready()
@@ -35,11 +47,12 @@ load_dotenv()
 client = CakeHelper(command_prefix="$", intents=intents)
 client.help_command = None
 
-cog_files = ['commands.general_commands']
-async def load():
-    for cog_file in cog_files:
-        await client.load_extension(cog_file)
-        print("%s loaded" % cog_file)
+cog_files = [
+    'cogs.servers'
+]
 
-load()
+for cog_file in cog_files:
+    client.load_extension(cog_file)
+    print("%s loaded" % cog_file)
+
 client.run(token=os.getenv("TOKEN"))
