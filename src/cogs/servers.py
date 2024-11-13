@@ -4,7 +4,7 @@ from discord import Color, Embed
 import discord
 from discord.ext import commands
 from discord import app_commands
-from tables import interview_data
+from tables import *
 
 def create_embed_response(description_text: list[str], client: commands.Bot, color: Color = Color.pink()):
     embed = Embed()
@@ -51,7 +51,21 @@ class ServerCommands(commands.Cog):
     #fix the shitty table
     @commands.command(name="interview")
     async def hello_message(self, ctx: commands.Context):
-        await ctx.reply(f"{interview_data}")
+        data = get_data("select * from interviews") 
+        await ctx.reply(f"{data}")
+
+    @commands.command(name="help")
+    async def help(self, ctx: commands.Context):
+        embed = discord.Embed(
+            color = discord.Color.yellow(),
+            title= "All the commands",
+            description=
+            "```$server <server-name>``` check the number of players in the game"
+            "```$help``` ask for help from cake lel\n"
+        )
+        embed.set_footer(text = "more will come")
+        embed.set_author(name='this is what cake said', icon_url=self.client.user.avatar.url)
+        await ctx.reply(embed=embed)
 
 async def setup(client: commands.Bot):
     await client.add_cog(ServerCommands(client))

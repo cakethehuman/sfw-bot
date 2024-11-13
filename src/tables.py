@@ -3,25 +3,24 @@ from tabulate import tabulate
 from time import sleep
 import cachetools
 
+
 mydb = mysql.connector.connect(
   host="localhost",
   user="root",
-  password="",#put your own pass:V
+  password="12345",#put your own pass:V
   database="user_data"
 )
 
+
 #mydb.commit() this is for update and other other shit
-cache = cachetools.TTLCache(maxsize=100,ttl=5)
-selection = "select * from interviews"
 
+cache = cachetools.TTLCache(maxsize=100, ttl=60)
 @cachetools.cached(cache)
-def get_users(selection):
+def get_data(selection):
+  mycursor = mydb.cursor()
+  mycursor.execute(selection)
+  interview_data = mycursor.fetchall()
+  return interview_data
 
-    mycursor = mydb.cursor()
-    mycursor.execute(selection)
-    interview_data = mycursor.fetchall()
-    cache[selection] = interview_data
-    return interview_data
-
-
-interview_data = get_users(selection)
+get_data("select * from interviews") 
+print(get_data("select * from interviews") )
