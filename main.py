@@ -1,18 +1,23 @@
 from git import Repo, Remote
+from pathlib import Path
 
 branch = "dev"
 repo_url = "https://github.com/cakethehuman/sfw-bot"
+local_repo = Path("./")
+local_live_repo = Path('./live')
 
-repo = Repo(repo_url)
-remote: Remote
+def pull():
+    repo = Repo(local_repo)
+    repo.rev_parse(f'origin/{branch}')
 
-try:
-    remote = repo.remote('main')
-except:
-    remote = repo.create_remote('main', repo_url)
+    try:
+        repo_live = Repo(local_live_repo)
+        if repo.rev_parse != repo_live.rev_parse:
+            Repo.clone_from(repo_url, local_repo, branch=branch)
+    except:
+        # Just clone immediately
+        Repo.clone_from(repo_url, local_repo, branch=branch)
+    
+    local_live_repo.unlink(missing_ok=True)
 
-async def pull():
-    current = repo.head.commit
-    remote.fetch()
-    if current != repo.head.commit:
-        Repo.clone_from(repo_url, './live')
+pull()
