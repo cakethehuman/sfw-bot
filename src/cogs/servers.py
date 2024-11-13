@@ -1,6 +1,5 @@
-import requests
-from discord.ext import commands, tasks
-from constants import format_server_info, cache, api_url, api_request_payload, ResponseAPIServers
+from discord.ext import commands
+from constants import format_server_info, cache
 from discord import Color, Embed
 import discord
 from discord.ext import commands
