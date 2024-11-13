@@ -8,7 +8,7 @@ from discord import app_commands
 from constants import cache, api_url, api_request_payload, get_server_name, ResponseAPIServers
 
 """
-Looping for 30 secs thhen get the random caches
+Looping for 30 secs then get the random caches
 """
 class CakeHelper(commands.Bot):
     @tasks.loop(seconds=30)
@@ -21,7 +21,8 @@ class CakeHelper(commands.Bot):
 
 
 #looping for 5 sec to get a new response
-    @tasks.loop(seconds=5)
+# Increased interval duration to avoid hitting rate limit
+    @tasks.loop(seconds=15)
     async def update_servers_cache(self):
         response = requests.post(api_url, json=api_request_payload)
         if (response.ok != True):
