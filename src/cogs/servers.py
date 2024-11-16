@@ -67,5 +67,14 @@ class ServerCommands(commands.Cog):
         embed.set_author(name='this is what cake said', icon_url=self.client.user.avatar.url)
         await ctx.reply(embed=embed)
 
+    @commands.command(name="github")
+    async def help(self, ctx: commands.Context):
+        embed = discord.Embed(
+            color = discord.Color.blue(),
+            title= "All the commands",
+            description="```https://github.com/cakethehuman/sfw-bot````"
+        )
+        await ctx.reply(embed=embed)
+
 async def setup(client: commands.Bot):
     await client.add_cog(ServerCommands(client))
