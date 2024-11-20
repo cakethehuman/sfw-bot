@@ -47,7 +47,7 @@ intents.guilds = True
 intents.guild_messages = True
 intents.presences = True
 
-load_dotenv('token.env')
+load_dotenv()
 #prefix
 client = CakeHelper(command_prefix="$", intents=intents)
 client.help_command = None
