@@ -4,7 +4,7 @@ from discord import Color, Embed
 import discord
 from discord.ext import commands
 from discord import app_commands
-from tables import *
+from tables import data_select,data_add
 
 def create_embed_response(description_text: list[str], client: commands.Bot, color: Color = Color.pink()):
     embed = Embed()
@@ -48,13 +48,43 @@ class ServerCommands(commands.Cog):
     @app_commands.command(name="hello", description="Say hello!")
     async def hello(self, interaction: discord.Interaction):
         await interaction.response.send_message("Hello, world!")
+
+
+class Basic_Interview(commands.Cog):
+    def __init__(self, client: commands.Bot):
+        self.client = client
     #fix the shitty table
     @commands.command(name="interview")
     async def hello_message(self, ctx: commands.Context):
-        data = get_data("select * from interviews") 
-        await ctx.reply(f"{data}")
+        table = data_select()
+        await ctx.reply(f"str({table})")
 
-    @commands.command(name="help")
+    @commands.command(name="add")
+    async def hello_message(self, ctx: commands.Context):
+        test = data_add()
+        await ctx.reply(f"{str(test)}")
+
+    @commands.command(name="apply")
+    async def hello_message(self, ctx: commands.Context, member: discord.Member=None):
+        member = member or ctx.message.author
+        role = discord.utils.get(ctx.guild.roles, id=1302242138997653535)
+        
+        embed = discord.Embed(
+            color = discord.Color.from_str("#000080"),
+            description=f"i gave you {role} and pls film the from too here https://docs.google.com/forms/d/e/1FAIpQLSdR87JKY4sbvaL1pfn_oyeSr4ykwMI2P9iLbeli7ymJVlXFaw/viewform"
+        )
+
+        try:
+            await member.add_roles(role)
+            await ctx.reply(embed=embed)
+        except ValueError or discord.Forbidden:
+            await ctx.reply("cake bot fail/ too weak to give you that role")
+
+class Basic_Commands(commands.Cog):
+    def __init__(self, client: commands.Bot):
+        self.client = client
+
+    @commands.command(name="cmd")
     async def help(self, ctx: commands.Context):
         embed = discord.Embed(
             color = discord.Color.yellow(),
@@ -78,3 +108,5 @@ class ServerCommands(commands.Cog):
 
 async def setup(client: commands.Bot):
     await client.add_cog(ServerCommands(client))
+    await client.add_cog(Basic_Commands(client))
+    await client.add_cog(Basic_Interview(client))
