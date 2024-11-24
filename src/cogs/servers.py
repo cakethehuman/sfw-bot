@@ -4,7 +4,6 @@ from discord import Color, Embed
 import discord
 from discord.ext import commands
 from discord import app_commands
-from tables import data_select,data_add
 
 def create_embed_response(description_text: list[str], client: commands.Bot, color: Color = Color.pink()):
     embed = Embed()
@@ -54,16 +53,6 @@ class Basic_Interview(commands.Cog):
     def __init__(self, client: commands.Bot):
         self.client = client
     #fix the shitty table
-    @commands.command(name="interview")
-    async def hello_message(self, ctx: commands.Context):
-        table = data_select()
-        await ctx.reply(f"str({table})")
-
-    @commands.command(name="add")
-    async def hello_message(self, ctx: commands.Context):
-        test = data_add()
-        await ctx.reply(f"{str(test)}")
-
     @commands.command(name="apply")
     async def hello_message(self, ctx: commands.Context, member: discord.Member=None):
         member = member or ctx.message.author
@@ -71,12 +60,15 @@ class Basic_Interview(commands.Cog):
         
         embed = discord.Embed(
             color = discord.Color.from_str("#000080"),
-            description=f"i gave you {role} and pls film the from too here https://docs.google.com/forms/d/e/1FAIpQLSdR87JKY4sbvaL1pfn_oyeSr4ykwMI2P9iLbeli7ymJVlXFaw/viewform"
+            description=f"i gave you {role} role and pls film the from too here \n https://docs.google.com/forms/d/e/1FAIpQLSdR87JKY4sbvaL1pfn_oyeSr4ykwMI2P9iLbeli7ymJVlXFaw/viewform"
         )
 
         try:
-            await member.add_roles(role)
-            await ctx.reply(embed=embed)
+            if role not in member.roles:
+                await member.add_roles(role)
+                await ctx.reply(embed=embed)
+            else:
+                await ctx.reply("you already have")
         except ValueError or discord.Forbidden:
             await ctx.reply("cake bot fail/ too weak to give you that role")
 
@@ -91,19 +83,10 @@ class Basic_Commands(commands.Cog):
             title= "All the commands",
             description=
             "```$server <server-name>``` check the number of players in the game"
-            "```$help``` ask for help from cake lel\n"
+            "```$cmd``` ask for help from cake lel\n"
         )
         embed.set_footer(text = "more will come")
         embed.set_author(name='this is what cake said', icon_url=self.client.user.avatar.url)
-        await ctx.reply(embed=embed)
-
-    @commands.command(name="github")
-    async def help(self, ctx: commands.Context):
-        embed = discord.Embed(
-            color = discord.Color.blue(),
-            title= "All the commands",
-            description="```https://github.com/cakethehuman/sfw-bot````"
-        )
         await ctx.reply(embed=embed)
 
 async def setup(client: commands.Bot):
