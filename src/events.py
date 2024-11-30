@@ -1,5 +1,6 @@
 from discord import Message
 from client import client, CakeHelper
+from discord import app_commands
 
 @client.event
 async def on_ready(self: CakeHelper):
