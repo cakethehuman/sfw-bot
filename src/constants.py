@@ -58,9 +58,11 @@ def get_server_name(id: int):
 
 def format_server_info(id: int) -> str:
     server = cache.get(id)
-    
+    check_box = "✅"
+    emoji = "🦅"
+
     return (
         f"**{get_server_name(id)}** ({id})\n" +
-        f"\tGame Version: **{server.get('version')}**\n" +
-        f"\tPlayer Counts: **{server.get('players')}**"
+        f"\tGame Version: **{server.get('version')}** {check_box}\n" +
+        f"\tPlayer Counts: **{server.get('players')}** {emoji}"
     )
