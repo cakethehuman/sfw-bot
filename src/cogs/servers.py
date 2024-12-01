@@ -60,7 +60,7 @@ class Basic_Interview(commands.Cog):
         
         embed = discord.Embed(
             color = discord.Color.from_str("#000080"),
-            description=f"i gave you {role} role and pls film the from too here \n https://docs.google.com/forms/d/e/1FAIpQLSdR87JKY4sbvaL1pfn_oyeSr4ykwMI2P9iLbeli7ymJVlXFaw/viewform"
+            description=f"i gave you {role} role add your information in this form \n https://docs.google.com/forms/d/e/1FAIpQLSdR87JKY4sbvaL1pfn_oyeSr4ykwMI2P9iLbeli7ymJVlXFaw/viewform"
         )
 
         try:
