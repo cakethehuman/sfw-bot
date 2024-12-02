@@ -33,15 +33,15 @@ class ServerCommands(commands.Cog):
     
     @show_all_servers.command(name='vanilla')
     async def show_vanilla_server(self, ctx: commands.Context):
-        await ctx.reply(embeds=[ create_embed_response([ format_server_info(72115) ], self.client, Color.green()) ])
+        await ctx.reply(embeds=[ create_embed_response([ format_server_info(72115)], self.client, Color.green()) ])
     
     @show_all_servers.command(name='yummy')
     async def show_yummy_server(self, ctx: commands.Context):
-        await ctx.reply(embeds=[ create_embed_response([ format_server_info(72116) ], self.client, Color.red()) ])
+        await ctx.reply(embeds=[ create_embed_response([ format_server_info(72116)], self.client, Color.red()) ])
     
     @show_all_servers.command(name='eggz')
     async def show_eggz_server(self, ctx: commands.Context):
-        await ctx.reply(embeds=[ create_embed_response([ format_server_info(72117) ], self.client, Color.blue()) ])
+        await ctx.reply(embeds=[ create_embed_response([ format_server_info(72117)], self.client, Color.blue()) ])
     
     #this shit going to take 1 houur 
     @app_commands.command(name="hello", description="Say hello!")
@@ -52,7 +52,7 @@ class ServerCommands(commands.Cog):
 class Basic_Interview(commands.Cog):
     def __init__(self, client: commands.Bot):
         self.client = client
-    #fix the shitty table
+
     @commands.command(name="apply")
     async def hello_message(self, ctx: commands.Context, member: discord.Member=None):
         member = member or ctx.message.author

@@ -19,6 +19,12 @@ server_names = {
     72117: "Eggzellent Dreams"
 }
 
+emoji_server ={
+    72115: "🍦", 
+    72116: "😋", 
+    72117: "🥚"
+}
+
 # Types
 class ServerInfo(TypedDict):
     accountId: int
@@ -56,13 +62,17 @@ developers = [
 def get_server_name(id: int):
     return server_names.get(id, "Unknown")
 
+def get_server_emoji(id: int):
+    return emoji_server.get(id, "Unknown")
+
+
 def format_server_info(id: int) -> str:
     server = cache.get(id)
     check_box = "✅"
     emoji = "🦅"
 
     return (
-        f"**{get_server_name(id)}** ({id})\n" +
+        f"**{get_server_name(id)}** {get_server_emoji(id)} ({id})\n" +
         f"\tGame Version: **{server.get('version')}** {check_box}\n" +
         f"\tPlayer Counts: **{server.get('players')}** {emoji}"
     )
